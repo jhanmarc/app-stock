@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "app-redux-cc349": {
+      "hosting": {
+        "ingresosEgresos": [
+          "app-redux-cc349"
+        ]
+      }
+    }
+  }
+}
