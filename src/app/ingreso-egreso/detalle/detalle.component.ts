@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AppState } from '../../app.reducer';
+// import { AppState } from '../../app.reducer';
 import { IngresoEgreso } from '../ingreso-egreso.model';
 import { IngresoEgresoService } from '../ingreso-egreso.service';
 
 import Swal from 'sweetalert2';
 import { filter } from 'rxjs/operators';
-import { FormControl, Validators } from '@angular/forms';
+import { AppEgresoIngresoState } from '../ingreso-egreso-reducer';
 
 @Component({
   selector: 'app-detalle',
@@ -26,7 +26,7 @@ export class DetalleComponent implements OnInit, OnDestroy {
 
   
 
-  constructor( private store: Store<AppState>, private ingresoEgresoService: IngresoEgresoService ) { 
+  constructor( private store: Store<AppEgresoIngresoState>, private ingresoEgresoService: IngresoEgresoService ) { 
     this.items = [];
    }
 
@@ -40,7 +40,6 @@ export class DetalleComponent implements OnInit, OnDestroy {
         } )
       )
       .subscribe( ingresoEgreso => {
-        // console.log(ingresoEgreso);
         this.items = ingresoEgreso.items
       })
   }

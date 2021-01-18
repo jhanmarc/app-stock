@@ -21,7 +21,7 @@ export class IngresoEgresoComponent implements OnInit, OnDestroy {
   formIE: FormGroup;
   tipo = 'ingreso';
 
-  loadingSubs: Subscription = new Subscription;
+  loadingSubs: Subscription = new Subscription();
   cargando: boolean;
  
   constructor( private ingresoEgresoService: IngresoEgresoService, private store: Store<AppState> ) { }

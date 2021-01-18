@@ -15,6 +15,13 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.ingresoEgresoService.initIngresoEgresoListener();
+
+  }
+
+  async getDatos(){
+    await console.log("traer 1");
+    await console.log("traer 2");
+    await console.log("traer 2");
   }
 
 }
