@@ -13,7 +13,7 @@ import { AppState } from '../app.reducer';
 
 import { Store } from '@ngrx/store';
 import { ActivarLoadingAction, DesactivarLoadingAction } from '../shared/ui.accions';
-import { SetUserAction } from './auth.actions';
+import { SetUserAction, UnSetUserAction } from './auth.actions';
 
 import { Subscription } from 'rxjs';
 
@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
 export class AuthService {
 
   private userSubscription: Subscription = new Subscription();
+  private user: User;
 
   constructor( 
     private afAuth: AngularFireAuth, 
@@ -38,11 +39,12 @@ export class AuthService {
       if( fbUser ){
         this.userSubscription = this.afDB.doc(`${fbUser.uid}/usuario`).valueChanges()
             .subscribe( (userObj:any) => {
-              console.log(userObj);
               const newUser = new User( userObj );
               this.store.dispatch( new SetUserAction( newUser) )
+              this.user = newUser;
             })
       }else{
+        this.user = null;
         this.userSubscription.unsubscribe()
       }
     })
@@ -96,8 +98,9 @@ export class AuthService {
   }
 
   logout() {
-    this.afAuth.signOut();
+    this.store.dispatch( new UnSetUserAction() )
     this.router.navigate(['/login'])
+    this.afAuth.signOut();
   }
 
   isAuth() {
@@ -110,5 +113,9 @@ export class AuthService {
           return fbUser != null
         })
       );
+  }
+
+  getUser() {
+    return { ...this.user }
   }
 }

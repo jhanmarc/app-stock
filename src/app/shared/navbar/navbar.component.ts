@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AuthService } from '../../auth/auth.service';
+import { AppState } from '../../app.reducer';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -8,9 +13,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  name:string;
+  subcription: Subscription = new Subscription();
+
+
+  constructor(private store:Store<AppState>) { }
 
   ngOnInit(): void {
+    this.subcription = this.store.select('auth')
+      .pipe(
+        filter( auth => auth.user != null )
+      )
+      .subscribe( auth => {
+        this.name = auth.user.nombre;
+      })
+  }
+
+  ngOnDestroy(){
+    this.subcription.unsubscribe();
   }
 
 }
